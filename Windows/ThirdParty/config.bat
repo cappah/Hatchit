@@ -43,3 +43,10 @@ move /Y amd64\python3.dll %~dp0\..\_build\dependencies\Python\bin\Release\
 move /Y amd64\python35.dll %~dp0\..\_build\dependencies\Python\bin\Release\
 move /Y amd64\python.exe %~dp0\..\_build\dependencies\Python\bin\Release\
 xcopy /Y ..\Lib %~dp0\..\_build\dependencies\Python\bin\Release\Lib /D /E
+
+cd ../../cog
+
+%~dp0\..\_build\dependencies\Python\bin\Release\python.exe setup.py install --prefix=%~dp0\..\_build\dependencies\Python\bin\Debug\
+%~dp0\..\_build\dependencies\Python\bin\Release\python.exe setup.py install --prefix=%~dp0\..\_build\dependencies\Python\bin\Release\
+
+cd ../Python/PCbuild

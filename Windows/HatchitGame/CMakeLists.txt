@@ -106,6 +106,8 @@ add_definitions(-D_UNICODE)
 
 add_library(HatchitGame SHARED ${HT_GAME_INC} ${HT_GAME_SRC})
 
+add_custom_command(TARGET HatchitGame PRE_BUILD
+					COMMAND $(SolutionDir)../dependencies/Python/bin/Release/python.exe -m cogapp -r $(SolutionDir)../../../HatchitGame/source/ht_cfactory.cpp)
 
 target_compile_definitions(HatchitGame PRIVATE HT_NONCLIENT_BUILD)
 
@@ -114,3 +116,4 @@ set(TINYXML_LIBS debug tinyxml2d optimized tinyxml2)
 set(BULLET_LIBS debug BulletCollisiond BulletDynamicsd BulletInverseDynamicsd BulletSoftBodyd LinearMathd optimized BulletCollision BulletDynamics BulletInverseDynamics BulletSoftBody LinearMath)
 
 target_link_libraries(HatchitGame HatchitCore HatchitResource HatchitGraphics ${TINYXML_LIBS} ${GL_LIBS} ${ASSIMP_LIBS} ${SDL_LIBS} ${GLEW_LIBS} ${DX11_LIBS} ${DX12_LIBS} ${VK_LIBS})
+
