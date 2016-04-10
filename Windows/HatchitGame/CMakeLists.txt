@@ -107,7 +107,7 @@ add_definitions(-D_UNICODE)
 add_library(HatchitGame SHARED ${HT_GAME_INC} ${HT_GAME_SRC})
 
 add_custom_command(TARGET HatchitGame PRE_BUILD
-					COMMAND $(SolutionDir)../dependencies/Python/bin/Release/python.exe -m cogapp -r $(SolutionDir)../../../HatchitGame/source/ht_cfactory.cpp)
+					COMMAND $(SolutionDir)../dependencies/Python/bin/Release/python.exe -m cogapp -r $(SolutionDir)../../../HatchitGame/source/ht_component_factory.cpp)
 
 target_compile_definitions(HatchitGame PRIVATE HT_NONCLIENT_BUILD)
 
