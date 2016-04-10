@@ -1,10 +1,10 @@
 {
-    "RenderPass" : "TestRenderPass.json",
+    "RenderPass" : "DeferredCombinationPass.json",
 
     "Shaders": {
         "spv": {
-            "Vertex":"raptor_VS.spv",
-            "Fragment":"raptor_FS.spv",
+            "Vertex":"deferredCombination_VS.spv",
+            "Fragment":"deferredCombination_FS.spv",
             "Geometry":"",
             "Tess_Control":"",
             "Tess_Eval":"",

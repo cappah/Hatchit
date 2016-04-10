@@ -1,10 +1,10 @@
 {
-    "RenderPass" : "TestRenderPass.json",
+    "RenderPass" : "SwapchainRenderPass.json",
 
     "Shaders": {
         "spv": {
-            "Vertex":"raptor_VS.spv",
-            "Fragment":"raptor_FS.spv",
+            "Vertex":"screen_VS.spv",
+            "Fragment":"screen_FS.spv",
             "Geometry":"",
             "Tess_Control":"",
             "Tess_Eval":"",
