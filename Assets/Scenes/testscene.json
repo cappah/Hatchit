@@ -27,9 +27,7 @@
             "GUID": "{00000000-0000-0000-0000-000000000002}",
             "Components": [
                 {
-                    "Type": "MeshRenderer",
-					"Material": "DeferredMaterial.json",
-					"Mesh":  "raptor.obj"
+                    "Type": "TestComponent"
                 }
             ],
             "Transform": {

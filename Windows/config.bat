@@ -93,6 +93,8 @@ del CMakeCache.txt
 @echo on
 cmake ../../ %languageString% -G "Visual Studio 14 2015 Win64" %buildUniversalApp% -DCMAKE_SYSTEM_VERSION=10.0
 
+swig -c++ -python -o HatchitMath/HatchitMath_wrap.cpp HatchitMathModule.i
+
 
 
 
