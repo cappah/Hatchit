@@ -85,6 +85,8 @@ include_directories("../../HatchitCore/include"
                     ${HT_GL_INCLUDES}
                     ${HT_VK_INCLUDES}
                     "../../HatchitGame/include"
+					"../../HatchitScript/include"
+					"../../HatchitScript/source"
                     ${HT_WINDOW_INCLUDE}
                     "../../ThirdParty/assimp/include"
                     "../../ThirdParty/inih/"
@@ -118,4 +120,4 @@ set(ASSIMP_LIBS debug assimpd optimized assimp)
 set(TINYXML_LIBS debug tinyxml2d optimized tinyxml2)
 set(BULLET_LIBS debug BulletCollisiond BulletDynamicsd BulletInverseDynamicsd BulletSoftBodyd LinearMathd optimized BulletCollision BulletDynamics BulletInverseDynamics BulletSoftBody LinearMath)
 
-target_link_libraries(HatchitGame HatchitCore HatchitResource HatchitGraphics ${TINYXML_LIBS} ${GL_LIBS} ${ASSIMP_LIBS} ${SDL_LIBS} ${GLEW_LIBS} ${DX11_LIBS} ${DX12_LIBS} ${VK_LIBS})
+target_link_libraries(HatchitGame HatchitCore HatchitResource HatchitGraphics HatchitScript ${TINYXML_LIBS} ${GL_LIBS} ${ASSIMP_LIBS} ${SDL_LIBS} ${GLEW_LIBS} ${DX11_LIBS} ${DX12_LIBS} ${VK_LIBS})
