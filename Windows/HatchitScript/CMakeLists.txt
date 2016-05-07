@@ -2,7 +2,8 @@
 include_directories("../../HatchitCore/include"
                     "../../HatchitCore/source/inline"
 					"../../HatchitMath/include"
-					"../../HatchitMath/source/inline"
+					"../../HatchitMath/source/inline
+					"
                     "../../HatchitScript/include"
                     "../../ThirdParty/Python/include"
                     "../../ThirdParty/Python/PC")
@@ -18,5 +19,7 @@ add_library(HatchitScript SHARED ${HT_SCRIPT_INC} ${HT_SCRIPT_SRC})
 
 target_compile_definitions(HatchitScript PRIVATE HT_NONCLIENT_BUILD)
 
-set(PYTHON_LIBS debug python34_d optimized python34 python3)
+set(PYTHON_LIBS debug python35_d optimized python3)
 target_link_libraries(HatchitScript HatchitCore ${PYTHON_LIBS})
+
+

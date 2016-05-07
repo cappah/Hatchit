@@ -93,12 +93,14 @@ include_directories("../../HatchitCore/include"
                     "../../ThirdParty/tinyxml2/"
                     "../../ThirdParty/json/src"
                     "../../ThirdParty/cppformat/cppformat"
+					"../_build/dependencies/Python/Include/"
                     ${GLEW_INCLUDES}
                     ${VK_INCLUDES})
                     
 link_directories("../_build/dependencies/assimp/lib/$(Configuration)/"
                  "../_build/dependencies/SDL2/lib/$(Configuration)/"
                  "../_build/dependencies/tinyxml2/lib/$(Configuration)/"
+				 "../_build/dependencies/Python/lib/$(Configuration)/"
                  ${GLEW_LIB_DIR}
                  ${VK_LIB_DIR})
                     
@@ -120,4 +122,4 @@ set(ASSIMP_LIBS debug assimpd optimized assimp)
 set(TINYXML_LIBS debug tinyxml2d optimized tinyxml2)
 set(BULLET_LIBS debug BulletCollisiond BulletDynamicsd BulletInverseDynamicsd BulletSoftBodyd LinearMathd optimized BulletCollision BulletDynamics BulletInverseDynamics BulletSoftBody LinearMath)
 
-target_link_libraries(HatchitGame HatchitCore HatchitResource HatchitGraphics HatchitScript ${TINYXML_LIBS} ${GL_LIBS} ${ASSIMP_LIBS} ${SDL_LIBS} ${GLEW_LIBS} ${DX11_LIBS} ${DX12_LIBS} ${VK_LIBS})
+target_link_libraries(HatchitGame HatchitCore HatchitResource HatchitGraphics HatchitScript python35_d ${TINYXML_LIBS} ${GL_LIBS} ${ASSIMP_LIBS} ${SDL_LIBS} ${GLEW_LIBS} ${DX11_LIBS} ${DX12_LIBS} ${VK_LIBS})

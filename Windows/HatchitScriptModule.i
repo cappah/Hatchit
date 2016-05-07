@@ -1,20 +1,20 @@
 %module HatchitScript
 
 %{
+
+#include <ht_math.h>
 using namespace Hatchit;
 using Vector3 = Hatchit::Math::Vector3;
-#include <ht_math.h>
 %}
 
 %include <windows.i>
 
+namespace Hatchit {
+	namespace Math {
+		typedef struct{
+			float x, y, z;
+			static float Dot(Vector3& u, Vector3& v);
 
-
-typedef struct{
-	float x, y, z;
-	float Dot(Vector3* other)
-	{
-		return $self.Dot(other);
+		} Vector3;
 	}
-
-} Vector3;
+}
