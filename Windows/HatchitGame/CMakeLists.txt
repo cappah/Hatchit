@@ -79,6 +79,7 @@ include_directories("../../HatchitCore/include"
                     "../../HatchitMath/include"
                     "../../HatchitMath/source/inline"
                     "../../HatchitGraphics/include"
+					"../../HatchitScript/pysource"
                     ${HT_DX_INCLUDES}
                     ${HT_DX11_INCLUDES}
                     ${HT_DX12_INCLUDES}

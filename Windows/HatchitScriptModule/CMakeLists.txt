@@ -5,11 +5,12 @@ include_directories("../../HatchitMath/include"
 					
 link_directories("C:/Program Files/Python35/libs")
                     
+file(GLOB HT_SCRIPT_SWIG ../../HatchitScript/pysource/*.h)
 file(GLOB HT_SCRIPT_WRAP ../../HatchitScript/pysource/*.cpp)
 
 add_definitions(-D_UNICODE)
 
-add_library(HatchitScriptModule SHARED ${HT_SCRIPT_WRAP})
+add_library(HatchitScriptModule SHARED ${HT_SCRIPT_SWIG} ${HT_SCRIPT_WRAP})
 
 set(PYTHON_LIBS debug python35_d optimized python35)
 

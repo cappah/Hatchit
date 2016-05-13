@@ -2,8 +2,8 @@
 include_directories("../../HatchitCore/include"
                     "../../HatchitCore/source/inline"
 					"../../HatchitMath/include"
-					"../../HatchitMath/source/inline
-					"
+					"../../HatchitMath/source/inline"
+					"../../HatchitScript/pysource"
                     "../../HatchitScript/include"
                     "C:/Program Files/Python35/include"
                     "C:/Program Files/Python35/PC")

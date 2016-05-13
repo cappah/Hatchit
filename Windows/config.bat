@@ -66,8 +66,8 @@ copy /Y dependencies\tinyxml2\bin\Release\tinyxml2.dll bin\Release
 copy /Y %VK_SDK_PATH%\Source\lib\vulkan-1.dll bin\Release
 copy /Y dependencies\cppformat\bin\Release\cppformat.dll bin\Release
 
-
-swig -c++ -python -o ../../HatchitScript/pysource/HatchitScript_wrap.cpp ../HatchitScriptModule.i
+swig -c++ -python -o ../../HatchitScript/pysource/HatchitScript_wrap.cpp ../HatchitScriptModule.i 
+swig -c++ -python -external-runtime ../../HatchitScript/pysource/HatchitScript.h
 
 mkdir VS2015
 cd VS2015
