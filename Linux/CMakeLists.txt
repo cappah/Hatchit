@@ -66,23 +66,10 @@ set(HT_GL_INCLUDES "")
 
 endif()
 
-
-#If Vulkan support is defined we want to use XCB
-if(VK_SUPPORT)
-
-set(WINDOW_LIBS xcb)
-set(HT_WINDOW_INCLUDES ../HatchitGame/include/xcb/)
-
-file(GLOB HT_WINDOW_SRC ../HatchitGame/source/xcb/*.cpp)
-
-else()
-
 set(WINDOW_LIBS SDL2)
 set(HT_WINDOW_INCLUDES ../HatchitGame/include/sdl/)
 
 file(GLOB HT_WINDOW_SRC ../HatchitGame/source/sdl/*.cpp)
-
-endif()
 
 #configure header file to pass
 #CMake settings to source code
@@ -101,13 +88,15 @@ include_directories("../HatchitCore/include"
                     "../HatchitNetwork/include"
 		            "../HatchitMath/source/inline"
                     "../HatchitGame/include"
-		            "../ThirdParty/inih/"
-                    "../ThirdParty/cppformat/cppformat"
-                    "../ThirdParty/json/src/"
 		            ${HT_VK_INCLUDES}
 		            ${HT_GL_INCLUDES}
                     ${HT_WINDOW_INCLUDES}
-                    "../HatchitTest/include")
+                    "../HatchitTest/include"
+                    SYSTEM
+                    "../ThirdParty/inih/"
+                    "../ThirdParty/cppformat/cppformat"
+                    "../ThirdParty/json/src/"
+                    "../ThirdParty/stb")
 
 file(GLOB HT_CORE_SRC ../HatchitCore/source/*.cpp ../HatchitCore/source/linux/*.cpp ../ThirdParty/inih/*.c ../ThirdParty/cppformat/cppformat/*.cc)
 file(GLOB HT_RESOURCE_SRC ../HatchitResource/source/*.cpp ../HatchitResource/source/*.c)
@@ -135,10 +124,12 @@ target_compile_definitions(HatchitResource PRIVATE STB_IMAGE_IMPLEMENTATION)
 target_compile_definitions(HatchitCore PRIVATE FMT_EXPORT)
 if(GL_SUPPORT)
 	target_compile_definitions(HatchitGame PRIVATE GL_SUPPORT)
+    target_compile_definitions(HatchitGraphics PRIVATE GL_SUPPORT)
 endif()
 
 if(VK_SUPPORT)
 	target_compile_definitions(HatchitGame PRIVATE VK_SUPPORT)
+    target_compile_definitions(HatchitGraphics PRIVATE VK_SUPPORT)
 endif()
 
 add_executable(ht_test ${HT_TEST_SRC})
@@ -147,13 +138,6 @@ add_executable(ht_server ${HT_SERVER_SRC})
 add_custom_command(TARGET ht_test PRE_BUILD
                    COMMAND ${CMAKE_COMMAND} -E copy
                    ${PROJECT_SOURCE_DIR}/../HatchitTest/HatchitTest.ini $<TARGET_FILE_DIR:ht_test>)
-
-add_custom_command(TARGET ht_test PRE_BUILD
-                   COMMAND ${CMAKE_COMMAND} -E copy_directory
-                   ${PROJECT_SOURCE_DIR}/../Assets/Models/ $<TARGET_FILE_DIR:ht_test>)
-add_custom_command(TARGET ht_test PRE_BUILD
-                   COMMAND ${CMAKE_COMMAND} -E copy_directory
-                   ${PROJECT_SOURCE_DIR}/../Assets/Shaders/ $<TARGET_FILE_DIR:ht_test>)
 
 #target_link_libraries(HatchitCore cppformat)
 target_link_libraries(HatchitResource assimp)

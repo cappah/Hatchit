@@ -89,12 +89,14 @@ include_directories("../../HatchitCore/include"
 					"../../HatchitScript/include"
 					"../../HatchitScript/source"
                     ${HT_WINDOW_INCLUDE}
+                    SYSTEM
                     "../../ThirdParty/assimp/include"
                     "../../ThirdParty/inih/"
                     "../../ThirdParty/tinyxml2/"
                     "../../ThirdParty/json/src"
                     "../../ThirdParty/cppformat/cppformat"
 					"../_build/dependencies/Python/Include/"
+                    "../../ThirdParty/stb/"
                     ${GLEW_INCLUDES}
                     ${VK_INCLUDES})
                     
