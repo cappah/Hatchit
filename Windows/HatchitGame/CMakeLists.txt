@@ -76,6 +76,8 @@ include_directories("../../HatchitCore/include"
                     "../../HatchitCore/source/inline"
                     "../../HatchitResource/include"
                     "../../HatchitResource/source/inline"
+                    "../../HatchitAudio/include"
+                    "../../HatchitAudio/source/inline"
                     "../../HatchitMath/include"
                     "../../HatchitMath/source/inline"
                     "../../HatchitGraphics/include"
@@ -87,7 +89,7 @@ include_directories("../../HatchitCore/include"
                     ${HT_VK_INCLUDES}
                     "../../HatchitGame/include"
 					"../../HatchitScript/include"
-					"../../HatchitScript/source"
+					"../../HatchitAudio/include"
                     ${HT_WINDOW_INCLUDE}
                     SYSTEM
                     "../../ThirdParty/assimp/include"
@@ -95,20 +97,24 @@ include_directories("../../HatchitCore/include"
                     "../../ThirdParty/tinyxml2/"
                     "../../ThirdParty/json/src"
                     "../../ThirdParty/cppformat/cppformat"
-					"../_build/dependencies/Python/Include/"
+                    "../../ThirdParty/openal-soft/include"
                     "../../ThirdParty/stb/"
+					
                     ${GLEW_INCLUDES}
                     ${VK_INCLUDES})
                     
 link_directories("../_build/dependencies/assimp/lib/$(Configuration)/"
                  "../_build/dependencies/SDL2/lib/$(Configuration)/"
                  "../_build/dependencies/tinyxml2/lib/$(Configuration)/"
-				 "../_build/dependencies/Python/lib/$(Configuration)/"
+                 "../_build/dependencies/openal-soft/lib/$(Configuration)/"
                  ${GLEW_LIB_DIR}
                  ${VK_LIB_DIR})
                     
 file(GLOB HT_GAME_INC ../../HatchitGame/include/*.h ${HT_WINDOW_HEADERS}) 
 file(GLOB HT_GAME_SRC ../../HatchitGame/source/*.cpp ${HT_WINDOW_SOURCE})
+
+find_package(PythonLibs)
+include_directories(${PYTHON_INCLUDE_DIRS})
 
 add_definitions(-D_UNICODE)
 
@@ -125,4 +131,4 @@ set(ASSIMP_LIBS debug assimpd optimized assimp)
 set(TINYXML_LIBS debug tinyxml2d optimized tinyxml2)
 set(BULLET_LIBS debug BulletCollisiond BulletDynamicsd BulletInverseDynamicsd BulletSoftBodyd LinearMathd optimized BulletCollision BulletDynamics BulletInverseDynamics BulletSoftBody LinearMath)
 
-target_link_libraries(HatchitGame HatchitCore HatchitResource HatchitGraphics HatchitScript python35_d ${TINYXML_LIBS} ${GL_LIBS} ${ASSIMP_LIBS} ${SDL_LIBS} ${GLEW_LIBS} ${DX11_LIBS} ${DX12_LIBS} ${VK_LIBS})
+target_link_libraries(HatchitGame HatchitAudio HatchitCore HatchitResource HatchitGraphics HatchitScript ${TINYXML_LIBS} ${GL_LIBS} ${ASSIMP_LIBS} ${SDL_LIBS} ${GLEW_LIBS} ${DX11_LIBS} ${DX12_LIBS} ${VK_LIBS} ${PYTHON_LIBRARIES})

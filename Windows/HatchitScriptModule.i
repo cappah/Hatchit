@@ -3,18 +3,320 @@
 %{
 
 #include <ht_math.h>
+#include <ht_component.h>
+#include <ht_transform.h>
+#include <ht_gameobject.h>
 using namespace Hatchit;
-using Vector3 = Hatchit::Math::Vector3;
 %}
-
+#define HT_API
 %include <windows.i>
+%include ../../HatchitMath/include/ht_math.h
+
+%include ../../HatchitGame/include/ht_component.h
+%include ../../HatchitGame/include/ht_transform.h
 
 namespace Hatchit {
-	namespace Math {
-		typedef struct{
-			float x, y, z;
-			static float Dot(Vector3& u, Vector3& v);
+	namespace Game {
+		class GameObject
+        {
+        friend class Scene;
+        public:
+            GameObject(const GameObject& rhs) = default;
+            GameObject(GameObject&& rhs) = default;
+            GameObject& operator=(const GameObject& rhs) = default;
+            GameObject& operator=(GameObject&& rhs) = default;
 
-		} Vector3;
+            /**
+            * \brief Retrieve this GameObject's Guid.
+            */
+            const Core::Guid& GetGuid(void) const;
+
+            /**
+            * \brief Retrieve this GameObject's name.
+            */
+            const std::string& GetName(void) const;
+
+            /**
+            * \brief Retrieve this GameObject's Transform.
+            */
+            Transform& GetTransform(void);
+
+            /**
+            * \brief Indicates whether or not this GameObject is enabled.
+            * \return bool indicating if this GameObject is enabled.
+            */
+            bool GetEnabled(void) const;
+
+            /**
+            * \brief Enables/Disables the GameObject based on the provided value
+            * \param value The new value of m_enabled.
+            */
+            void SetEnabled(bool value);
+
+            /**
+            * \brief An inline for SetEnabled(true);
+            */
+            inline void Enable(void)
+            {
+                SetEnabled(true);
+            }
+
+            /**
+            * \brief An inline for SetEnabled(false);
+            */
+            inline void Disable(void)
+            {
+                SetEnabled(false);
+            }
+
+            /**
+            * \brief Returns this GameObject's parent.
+            * \return A pointer to the parent GameObject.
+            */
+            GameObject* GetParent(void);
+
+            /**
+            * \brief Sets the parent of this GameObject.
+            * \param parent The new GameObject parent pointer.
+            */
+            void SetParent(GameObject *parent);
+
+            /**
+            * \brief Returns a child GameObject located at the provided index.
+            * \param index  The index of the particular GameObject to locate.
+            * \return The pointer to the child GameObject, or a nullptr if it could not located.
+            */
+            GameObject* GetChildAtIndex(std::size_t index);
+
+            /**
+            * \brief Adds the provided GameObject as a child of this GameObject.
+            * \param child  The GameObject to child.
+            */
+            void AddChild(GameObject *child);
+
+            /**
+            * \brief Attempts to remove the GameObject child at the provided index.
+            * \param index  The index of the GameObject to remove.
+            */
+            void RemoveChildAtIndex(std::size_t index);
+
+            /**
+            * \brief Attempts to remove provided GameObject from this GameObject.
+            * \param child  The GameObject to remove.
+            */
+            void RemoveChild(GameObject *child);
+
+            /**
+            * \brief Called when the gameobject is created to initialize all values.
+            */
+            void OnInit(void);
+
+            /**
+            * \brief Called once per frame while the gameobject is enabled
+            *
+            * Updates all components first, then all child gameobjects.
+            */
+            void Update(void);
+
+
+            /**
+            * \brief Marks the GameObject to be destroyed the next time it would be updated.
+            * this also calls VOnDestroy, as the GameObject is to be treated as if it doesn't exist after this point
+            */
+            void MarkForDestroy(void);
+
+
+            /**
+            * \brief Attempts to attach a Component of type T.
+            * \param component  The new Component of type T to attach.
+            * \tparam T A sub-class of Component.
+            * \return bool indicating if the component could be attached.
+            * \sa AddComponent(Args&&... args)
+            *
+            * If the component can be attached, its VOnInit and VOnEnabled will be invoked.
+            */
+            template <typename T>
+            bool AddComponent(T *component);
+
+            /**
+            * \brief Attempts to attach a Component of type T.
+            * \param args   The arguments to pass to the constructor for T.
+            * \tparam T A sub-class of Component.
+            * \tparam Args... The arguments to provide to T's constructor.
+            * \return bool indicating if the Component could be attached.
+            * \sa AddComponent(T *component)
+            *
+            * This method constructs the Component of type T using the provided args.
+            * If the Component can be attached, its VOnInit and VOnEnabled will be invoked.
+            */
+            template <typename T, typename... Args>
+            bool AddComponent(Args&&... args);
+
+            /**
+            * \brief Attempts to remove a Component of type T.
+            * \tparam T A sub-class of Component.
+            * \return bool indicating if the Component could be removed.
+            *
+            * This method will invoke the VOnDisabled and VOnDestroy methods of the Component before deleting it.
+            */
+            template <typename T>
+            bool RemoveComponent(void);
+
+            /**
+            * \brief Test if a Component of type T is attached to this GameObject.
+            * \tparam T A sub-class of Component.
+            * \return true if there is a Component of type T attached.
+            */
+            template <typename T>
+            bool HasComponent(void) const;
+
+            /**
+            * \brief Test if Components of types T1, T2, and Args... are attached to this GameObject.
+            * \tparam T1 A sub-class of Component.
+            * \tparam T2 A sub-class of Component.
+            * \tparam Args... Sub-classes of Component.
+            * \return true if all Components are present.
+            */
+            template <typename T1, typename T2, typename... Args>
+            bool HasComponent(void) const;
+
+            /**
+            * \brief Return a Component of type T attached to this GameObject.
+            * \tparam T A sub-class of Component.
+            * \return Pointer to the Component, or nullptr if the Component was not present.
+            * \sa GetComponents()
+            */
+            template <typename T>
+            T* GetComponent(void);
+
+            /**
+            * \brief Returns Components of type Args... attached to this GameObject.
+            * \tparam Args... Sub-classes of Component.
+            * \return A std::tuple of Component pointers, or nullptr if a Component was not present.
+            * \sa GetComponent()
+            */
+            //template <typename... Args>
+            //std::tuple<Args*...> GetComponents(void);
+
+            /**
+            * \brief Enable a Component of type T attached to this GameObject.
+            * \tparam T A sub-class of Component.
+            * \return true if the Component was successfully enabled.
+            * \sa EnableComponents()
+            */
+            template <typename T>
+            bool EnableComponent(void);
+
+            /**
+            * \brief Enable Components of type Args... attached to this GameObject.
+            * \tparam Args... Sub-classes of Component.
+            * \return A std::tuple of bools indicating if a Component was successfully enabled.
+            * \sa EnableComponent()
+            */
+            /*template <typename... Args>
+            auto EnableComponents(void) -> decltype(std::make_tuple(EnableComponent<Args>()...))
+            {
+                return std::make_tuple(EnableComponent<Args>()...);
+            }*/
+
+            /**
+            * \brief Disable a Component of type T attached to this GameObject.
+            * \tparam T A sub-class of Component.
+            * \return true if the Component was successfully disabled.
+            * \sa DisableCompenents()
+            */
+            template <typename T>
+            bool DisableComponent(void);
+
+            /**
+            * \brief Disable Components of type Args... attached to this GameObject.
+            * \tparam Args... Sub-classes of Component.
+            * \return A std::tuple of bools indicating if a Component was successfully disabled.
+            */
+            /*template <typename... Args>
+            auto DisableComponents(void) -> decltype(std::make_tuple(DisableComponent<Args>()...))
+            {
+                return std::make_tuple(DisableComponent<Args>()...);
+            }*/
+
+        private:
+
+
+            /**
+            * \brief The constructor for GameObject.
+            *
+            * Responsible for initializing the Component vector, Component bitmask, and child vector.
+            */
+            GameObject(void);
+
+            /**
+            * \brief The constructor for GameObject read from scene file.
+            *
+            * Responsible for initializing the Component vector, Component bitmask, and child vector.
+            * Sets the GameObject's guid to an existing value.
+            *
+            * \param guid       The Guid for this GameObject.
+            * \param name       The name of this GameObject.
+            * \param t          The Transform for this GameObject.
+            * \param enabled    Whether or not this GameObject is enabled
+            * \sa Guid(), Transform()
+            */
+            GameObject(const Core::Guid guid, const std::string name, Transform t, bool enabled);
+
+
+            /**
+            * \brief The destructor for GameObject.
+            * Responsible for deleting all currently attached components.
+            */
+            ~GameObject(void);
+
+
+            /**
+            * \brief Called when the gameobject is enabled.
+            */
+            void OnEnabled(void);
+
+
+            /**
+            * \brief Called when the gameobject is disabled.
+            */
+            void OnDisabled(void);
+
+
+            /**
+            * \brief Attempts to attach a Component of type T.
+            * \param component  The new Component of type T to attach.
+            * \tparam T A sub-class of Component.
+            * \return bool indicating if the component could be attached.
+            * \sa AddComponent(Args&&... args)
+            */
+            template<typename T>
+            bool AddUninitializedComponent(T *component);
+
+            /**
+            * \brief Attempts to attach a Component of type T.
+            * \param args   The arguments to pass to the constructor for T.
+            * \tparam T A sub-class of Component.
+            * \tparam Args... The arguments to provide to T's constructor.
+            * \return bool indicating if the Component could be attached.
+            * \sa AddComponent(T *component)
+            *
+            * This method constructs the Component of type T using the provided args.
+            * If the Component can be attached, its VOnInit and VOnEnabled will be invoked.
+            */
+            template <typename T, typename... Args>
+            bool AddUninitializedComponent(Args&&... args);
+
+            bool m_enabled; /**< bool indicating if this GameObject is enabled. */
+            bool m_destroyed;//* < bool indicating that this object is to be destroyed on the next update call*/
+            std::string m_name; /**< The name associated with this GameObject. */
+            Core::Guid m_guid; /**< The Guid associated with this GameObject. */
+            Transform m_transform; /**< The Transform representing the position/orientation of this GameObject. */
+            GameObject *m_parent; /**< The parent of this GameObject. */
+            std::vector<GameObject*> m_children; /**< All the GameObjects which are children of this GameObject. */
+            std::vector<Game::Component*> m_components; /**< std::vector of all attached Components. */
+            std::unordered_map<Core::Guid, std::vector<Component*>::size_type> m_componentMap; /**< Unique mapping of Component to Guid. */
+        };
+
 	}
 }
