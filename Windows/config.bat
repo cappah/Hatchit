@@ -68,8 +68,13 @@ copy /Y %VK_SDK_PATH%\Bin\*.dll bin\Release
 copy /Y dependencies\cppformat\bin\Release\cppformat.dll bin\Release
 copy /Y dependencies\openal-soft\bin\Release\OpenAL32.dll bin\Release
 
-swig -c++ -python -o ../../HatchitScript/pysource/HatchitScript_wrap.cpp ../HatchitScriptModule.i 
-swig -c++ -python -external-runtime ../../HatchitScript/include/HatchitScript.h
+cd ../../HatchitScript
+mkdir pysource
+cd ../Windows
+swig -c++ -python -o ../HatchitScript/pysource/HatchitScript_wrap.cpp HatchitScriptModule.i 
+swig -c++ -python -external-runtime ../HatchitScript/include/HatchitScript.h
+
+cd _build
 
 mkdir VS2015
 cd VS2015

@@ -99,7 +99,6 @@ include_directories("../../HatchitCore/include"
                     "../../ThirdParty/cppformat/cppformat"
                     "../../ThirdParty/openal-soft/include"
                     "../../ThirdParty/stb/"
-					
                     ${GLEW_INCLUDES}
                     ${VK_INCLUDES})
                     
@@ -132,3 +131,4 @@ set(TINYXML_LIBS debug tinyxml2d optimized tinyxml2)
 set(BULLET_LIBS debug BulletCollisiond BulletDynamicsd BulletInverseDynamicsd BulletSoftBodyd LinearMathd optimized BulletCollision BulletDynamics BulletInverseDynamics BulletSoftBody LinearMath)
 
 target_link_libraries(HatchitGame HatchitAudio HatchitCore HatchitResource HatchitGraphics HatchitScript ${TINYXML_LIBS} ${GL_LIBS} ${ASSIMP_LIBS} ${SDL_LIBS} ${GLEW_LIBS} ${DX11_LIBS} ${DX12_LIBS} ${VK_LIBS} ${PYTHON_LIBRARIES})
+

@@ -9,6 +9,8 @@
 using namespace Hatchit;
 %}
 #define HT_API
+#define _MM_CALLCONV
+#define _MM_ALIGN16
 %include <windows.i>
 %include ../../HatchitMath/include/ht_math.h
 
